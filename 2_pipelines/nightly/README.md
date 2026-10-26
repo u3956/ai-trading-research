@@ -21,9 +21,9 @@ This folder shows **how the chain is built and how it fails safely**. The eight 
 | minute | `yahoo_bars.py --interval 1m` | captures the rolling 1-minute window |
 | weekly | `yahoo_bars.py --interval 30m / 60m`, `yahoo_earnings.py` | the 30-minute and hourly windows, and every earnings report per stock (consensus, reported, surprise) |
 
-Two data sources, each used for what it does best. The broker's API gives five years of daily bars per
-request but is paced per request (about 330 stocks an hour, so ~9 hours for the universe): `broker_daily.py` is a
-resumable crawler for full rebuilds and repairs. Yahoo does the nightly top-up of the whole universe in ~30 minutes;
+Two data sources, each used for what it does best. The broker's API gives long daily histories but is
+rate-limited, so a pass over the whole universe takes hours: `broker_daily.py` is a resumable crawler for full
+rebuilds and repairs. Yahoo does the nightly top-up of the whole universe in ~30 minutes;
 on settled bars the two sources agreed to the digit in a full-history audit. Prices come from the broker, volume from
 Yahoo's consolidated tape.
 
@@ -58,10 +58,10 @@ Yahoo's consolidated tape.
 
 ## The weekly backup
 
-The data stores, and the study and bot code that has no git remote, are copied once a week to the cloud drive with
+The data stores, and the study and bot code that has no git remote, are copied once a week to cloud storage with
 `robocopy` (`backup_drive.py`): copy only, never delete, so a file deleted on the PC survives in the backup; folder
 links are not followed; `.env` files and keys are never copied; and Windows device names (a stock whose ticker is
-`CON`) are renamed on the way, because the drive refuses them.
+`CON`) are renamed on the way, because the cloud folder refuses them.
 
 ## Excerpts
 
@@ -125,8 +125,8 @@ def update_bars(log_path, t0):
         time.sleep(SETTLE_WAIT)
 ```
 
-**3. Fail fast on a locked workbook, and prove the copy** (`nightly.py`): the cloud drive rewrites file times, so
-only a byte comparison proves the copy.
+**3. Fail fast on a locked workbook, and prove the copy** (`nightly.py`): a copy counts only when it matches the
+local book byte for byte.
 
 ```python
 def check_workbook_writable():
@@ -140,9 +140,8 @@ def check_workbook_writable():
 
 
 def copy_checked(dst):
-    """Copy the local book to dst and compare the two byte for byte (Drive
-    rewrites mtimes, so timestamps prove nothing). None when they match,
-    else why not."""
+    """Copy the local book to dst and compare the two byte for byte. None
+    when they match, else why not."""
     try:
         shutil.copyfile(WORKBOOK, dst)
     except PermissionError:
@@ -240,10 +239,9 @@ MIN_MATCH = 3                                    # fewer matched dates -> thin
 ```python
     for src, dst, xd, xf in JOBS:
         # /E with no /PURGE keeps what the PC deleted; /XJ never follows a folder
-        # link; /FFT tolerates Drive's coarse file times, so unchanged files are
-        # not sent again every week. Never copied: keys and .env files, Excel lock
-        # stubs, bytecode, this run's own open log, the job's own skips -- and
-        # device names, done below.
+        # link. Never copied: keys and .env files, Excel lock stubs, bytecode,
+        # this run's own open log, the job's own skips -- and device names, done
+        # below.
         worst = max(worst, subprocess.run(
             ["robocopy", str(src), str(dst), "/E", "/XJ", "/FFT", "/R:2", "/W:5",
              "/XD", "__pycache__", *xd,

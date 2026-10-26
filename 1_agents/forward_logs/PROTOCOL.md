@@ -58,10 +58,10 @@ early streak as evidence.
 
 ## Automation
 
-The event calendar is built from SEC filings, a weekday job logs borrow availability from a broker's public
-short-borrow file (`borrow_log.py`, about 110 lines, not shown), and a nightly scorer fills the tape columns. No part of
-it places an order.
+The event calendar is built from SEC filings, a weekday job logs short-borrow availability (`borrow_log.py`, about 110
+lines, not shown), and a nightly scorer fills the tape columns. No part of it places an order.
 
-Each weekday before the US open the borrow job takes a snapshot of that file (shares available and fee for every
-symbol), keeps the raw file compressed so a name that joins the calendar later still has its history, and logs one line
-per name on the event calendar. A file version already logged is skipped, so a second run the same morning adds nothing.
+Each weekday before the US open the borrow job takes a snapshot of the borrow data (shares available and fee for
+every symbol), keeps the raw snapshot compressed so a name that joins the calendar later still has its history, and
+logs one line per name on the event calendar. A snapshot already logged is skipped, so a second run the same morning
+adds nothing.

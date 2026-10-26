@@ -72,7 +72,6 @@ files directly.
     """...
     Differences from the broker files that this function absorbs so strategy
     code never has to know them:
-      * naming/schema -- {SYM}.csv, no "US/Eastern" suffix, no wap/barCount
       # ...
       * session shape -- stored WITH pre/post (a superset, sliced here);
         rth=True keeps 09:30-15:59 ET

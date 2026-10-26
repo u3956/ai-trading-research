@@ -36,8 +36,8 @@ Python, no packages) appears here only as the excerpts below. The owner's watch 
 - **A broken source costs only that source.** Each fetch runs inside a wrapper that turns any error into "nothing from
   this source this minute"; the rest keeps working.
 - **The AI is boxed in.** The same locked-down CLI call as the radar: read-only sandbox, no web search, no tools, a
-  JSON schema for the answer. The judge only ever sees numbered headlines and answers with numbers, and an index
-  outside the list is ignored.
+  JSON schema for the answer. The judge only ever sees numbered headlines and answers with the numbers it keeps and one
+  short line for each; an index outside the list is ignored.
 - **A failed AI call loses nothing.** Headlines waiting for the judge are marked as seen only after the judge has
   answered, so if the call fails they are judged again the next minute.
 - **Polite to the SEC.** A contact line in the User-Agent (from `.env`) and a pause between requests, under the SEC's

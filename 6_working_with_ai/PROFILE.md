@@ -36,7 +36,7 @@ screener, this file records the date, because thresholds quoted from older studi
 
 ## Data environment
 
-- **Broker files** are the tape minus odd lots. The measured VWAP effect of that is at most 0.5 pp.
+- **Broker files** leave out some small trades. The measured VWAP effect of that is at most 0.5 pp.
 - **Consolidated minute history** comes from the downloaders in
   [../2_pipelines/market_data/](../2_pipelines/market_data/README.md), verified against the broker's files before use.
   Yahoo's free 1-minute window only reaches back about 30 days.

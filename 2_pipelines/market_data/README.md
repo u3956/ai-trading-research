@@ -8,7 +8,7 @@ the broker's columns, exchange-time stamps), so every study reads any source unc
 |---|---|---|
 | `alpaca_history.py` | Alpaca market-data API, free plan | consolidated 1-minute history back to 2016, delisted stocks included, 200 requests a minute |
 | `massive_history.py` | Massive (formerly Polygon.io), free plan | consolidated 1-minute bars, two years back, 5 calls a minute (an overnight run for a universe) |
-| `broker_history.py` | the broker's API | walks backwards in one-month chunks from the last completed session, inside the broker's pacing limit |
+| `broker_history.py` | the broker's API | walks backwards from the last completed session, inside the broker's request limits |
 
 This folder shows **how the sources are pulled and checked against each other**. The downloaders appear here only as
 the excerpts below.
@@ -75,11 +75,7 @@ def find_bad_prints(rows, clip=False):
     import pandas as pd
     if len(rows) < 3:
         return rows, []
-    df = pd.DataFrame(rows, columns=["datetime", "open", "high", "low", "close",
-                                     "volume", "wap", "barCount"])
-    day = df.datetime.str.slice(0, 8)
-    mso = df.datetime.str.slice(9, 11).astype(int) * 60 + \
-        df.datetime.str.slice(12, 14).astype(int) - 570
+    # ... rows into a frame; each bar's day and minute of the session from its timestamp
     core = (mso >= SPIKE_EXEMPT_OPEN) & (mso <= 389 - SPIKE_EXEMPT_CLOSE)
     rng = (df.high - df.low).groupby(day).transform("median").replace(0, float("nan"))
     body_lo = df[["open", "close"]].min(axis=1)

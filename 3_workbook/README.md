@@ -65,8 +65,9 @@ here on 20 sessions.
 - **Thresholds in one place.** Every threshold lives in one config file and on the controls sheet, never inside a
   formula.
 
-The screen itself (the list definitions, the thresholds and the group membership tables) is the owner's method and is
-not published. The builder and its library (about 4,100 lines) appear here only as the three short excerpts below.
+The screen itself (the list definitions, the thresholds and the full group tables) is the owner's method and is not
+published; the crops above show one group's on-list names on one day, not the tables. The builder and its library
+(about 4,100 lines) appear here only as the three short excerpts below.
 
 ## How it is verified
 
