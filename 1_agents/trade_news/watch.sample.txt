@@ -1,0 +1,7 @@
+# Sample data: a made-up watch list for news.py, not the owner's.
+# One US ticker per line. Anything after # is a comment; blank lines are ignored.
+AAPL
+MSFT      # comments can follow a ticker
+JPM
+XOM
+KO

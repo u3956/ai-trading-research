@@ -1,0 +1,20 @@
+# Keys and settings never enter the repo.
+.env
+*.env
+secrets/
+*.key
+
+# Data, results and bulk downloads stay local.
+data/
+data_bulk/
+out/_smoke*/
+*.npz
+*.parquet
+*.xlsx
+*.gz
+
+# Python and editor leftovers.
+__pycache__/
+*.pyc
+.venv/
+~$*

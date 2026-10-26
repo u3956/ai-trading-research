@@ -1,0 +1,20 @@
+gate,pass
+"H1(i) C d_ex < 0, boot z <= -2.5, both halves < 0",False
+"H1(ii) family TV-label d_ex < 0, boot z <= -2.0, both halves < 0",False
+H1(iii) C - P (chain-reweighted) boot z <= -2.0,False
+H1(iv) C - same-date bystanders boot z <= -2.0,False
+H1(v) k5 and k20 same sign as k10,False
+H1(vi) leave-one-year-out keeps the sign,False
+H1(vii) d_beta < 0 in both halves,False
+H1 sensitivities (*) keep the sign,True
+"H1b fragile d_ex < 0, boot z <= -2.5, both halves < 0",False
+H1b fragile - non-fragile (within chain) boot z <= -2.0,False
+H1b name-vol definition same sign,True
+"H2 W d_raw > 0, episode boot z >= t crit",False
+H2 both halves > 0,False
+H2 leave-one-episode-out keeps the sign,False
+H2 family TV-label W d_raw > 0,True
+H2 k5 and k20 same sign,False
+"H2 matched version same sign, z >= 2.0",False
+"H2 survivorship windows dropped: same sign, z >= 2.0",False
+"H2 wording 'do not short': y_raw mean > +6 bp both halves, median >= 0",False
